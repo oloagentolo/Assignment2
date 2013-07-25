@@ -5,7 +5,7 @@ require File.expand_path('../../factories', __FILE__)
 describe WorkOrder do
   before( :each ) do
     @worker = FactoryGirl.create(:worker)
-    @attr = { :work_details => 'Details', :date_of_creation => DateTime.now, :status => 'In progress',
+    @attr = { :work_details => 'Details', :date_of_creation => DateTime.now, :status => 'in progress',
       :status_update_date => DateTime.now }
   end
 
@@ -52,6 +52,28 @@ describe WorkOrder do
     it 'should have the right associated worker' do
       @work_order.worker_id.should == @worker.id
       @work_order.worker.should == @worker
+    end
+  end
+
+  describe 'validations' do
+    before(:each) do
+      @work_order = @worker.work_orders.create(@attr)
+    end
+
+    it 'should only accept 4 statuses' do
+      statuses = ['created', 'in progress', 'review', 'completed']
+      statuses.each do |status|
+        @work_order.status = status
+        @work_order.should be_valid
+      end
+    end
+
+    it 'should reject invalid statuses' do
+      invalid_statuses = %w[oops invalid_status unfinished started done]
+      invalid_statuses.each do |invalid_status|
+        @work_order.status = invalid_status
+        @work_order.should_not be_valid
+      end
     end
   end
 end
