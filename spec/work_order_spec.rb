@@ -50,4 +50,10 @@ describe WorkOrder do
       @work_order.worker.should == @worker
     end
   end
+
+  describe 'validations' do
+    it 'should have a worker id present' do
+      WorkOrder.new(@attr).should_not be_valid
+    end
+  end
 end
