@@ -20,5 +20,9 @@ task :db_seed do
   load 'seed.rb'  
 end
 
-task :db_seed => [:db_drop, :db_create, :db_migrate]
-task :default => :db_seed
+task :run_driver do
+	load 'driver.rb'
+end
+
+task :run_driver => [:db_drop, :db_create, :db_migrate, :db_seed]
+task :default => :run_driver
