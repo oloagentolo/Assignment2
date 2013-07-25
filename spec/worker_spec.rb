@@ -2,22 +2,21 @@ require File.expand_path('../../setup', __FILE__)
 require File.expand_path('../../worker', __FILE__)
 
 describe Worker do
-  before { @worker = Worker.new(last_name: 'Last', first_name: 'first') }
-
-  subject { @worker }
-
-  it { should respond_to( :last_name ) }
-  it { should respond_to( :first_name ) }
-
-  it { should be_valid }
-
-  describe 'without a last name present' do
-    before { @worker.last_name = '' }
-    it { should_not be_valid }
+  before( :each ) do
+    @attr = { :last_name => 'Last', :first_name => 'First' }
   end
 
-  describe 'without a first name present' do
-    before { @worker.first_name = '' }
-    it { should_not be_valid }
+  it 'should create a new instance given valid attributes' do
+    Worker.create!(@attr)
+  end
+
+  it 'should have a last name present' do
+    no_last_name_worker = Worker.new(@attr.merge(:last_name => ''))
+    no_last_name_worker.should_not be_valid
+  end
+
+  it 'should have a first name present' do
+    no_first_name_worker = Worker.new(@attr.merge(:first_name => ''))
+    no_first_name_worker.should_not be_valid
   end
 end
