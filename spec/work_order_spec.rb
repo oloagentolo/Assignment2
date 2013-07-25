@@ -33,6 +33,10 @@ describe WorkOrder do
       work_no_status_update_date = WorkOrder.new(@attr.merge(:status_update_date => nil))
       work_no_status_update_date.should_not be_valid
     end
+
+    it 'should have a worker id present' do
+      WorkOrder.new(@attr).should_not be_valid
+    end
   end
   
 
@@ -48,12 +52,6 @@ describe WorkOrder do
     it 'should have the right associated worker' do
       @work_order.worker_id.should == @worker.id
       @work_order.worker.should == @worker
-    end
-  end
-
-  describe 'validations' do
-    it 'should have a worker id present' do
-      WorkOrder.new(@attr).should_not be_valid
     end
   end
 end
