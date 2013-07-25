@@ -11,12 +11,12 @@ describe Worker do
 
   it { should be_valid }
 
-  describe 'should have a last name present' do
+  describe 'without a last name present' do
     before { @worker.last_name = '' }
     it { should_not be_valid }
   end
 
-  describe 'should have a first name present' do
+  describe 'without a first name present' do
     before { @worker.first_name = '' }
     it { should_not be_valid }
   end
